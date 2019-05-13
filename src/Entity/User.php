@@ -1,138 +1,98 @@
 <?php
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
+
 namespace App\Entity;
+
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ORM\Table(name="symfony_demo_user")
- *
- * Defines the properties of the User entity to represent the application users.
- * See https://symfony.com/doc/current/book/doctrine.html#creating-an-entity-class
- *
- * Tip: if you have an existing database, you can generate these entity class automatically.
- * See https://symfony.com/doc/current/cookbook/doctrine/reverse_engineering.html
- *
- * @author Ryan Weaver <weaverryan@gmail.com>
- * @author Javier Eguiluz <javier.eguiluz@gmail.com>
+ * @UniqueEntity( 
+ * fields = {"email"},
+ * message = "L'email saisis est déjà attaché à un autre compte" 
+ * )
  */
-class User implements UserInterface, EquatableInterface
+class User implements UserInterface
 {
     /**
-     * @var int
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
+
     /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     * @Assert\NotBlank()
-     */
-    private $fullName;
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", unique=true)
-     * @Assert\NotBlank()
-     * @Assert\Length(min=2, max=50)
-     */
-    private $username;
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string", unique=true)
+     * @ORM\Column(type="string", length=255)
      * @Assert\Email()
      */
     private $email;
-    /**
-     * @var string
-     *
-     * @ORM\Column(type="string")
-     */
-    private $password;
-    /**
-     * @var array
-     *
-     * @ORM\Column(type="json")
-     */
-    private $roles = array('ADMIN');
 
-    // other properties and methods
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
 
-    public function getId(){
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="3", minMessage="Votre mot de passe doit faire 3 caractères")
+     */
+    private $passwd;
+
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail($email)
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
 
-    public function getUsername()
+    public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    public function setUsername($username)
+    public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
     }
 
-    public function getPlainPassword()
+    public function getPasswd(): ?string
     {
-        return $this->plainPassword;
+        return $this->passwd;
     }
 
-    public function setPlainPassword($password)
+    public function setPasswd(string $passwd): self
     {
-        $this->plainPassword = $password;
+        $this->passwd = $passwd;
+
+        return $this;
     }
 
-    public function getPassword()
-    {
-        return $this->password;
+    public function eraseCredentials(){
+
     }
 
-    public function setPassword($password)
-    {
-        $this->password = $password;
+    public function getSalt(){}
+
+    public function getRoles(){
+        return ['ROLE_USER'];
     }
 
-    public function getSalt()
-    {
-        // Les algorithmes bcrypt et argon2i ne nécessites pas de sel .
-        // Vous pourriez avoir besoin de cette fonction si vous changez d'algo.
-        return null;
+    public function getPassword(){
+        return $this->passwd;
     }
 
-    public function getRoles()
-    {
-        return $this->roles;
-    }
-
-    public function eraseCredentials()
-    {
-    }
-
-      public function isEqualTo(UserInterface $user){
-      	return null;
-      }
 }
