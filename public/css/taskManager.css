@@ -1,0 +1,35 @@
+#contentPage{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+#centered-bloc{
+	//border: solid 1px;
+	text-align: center;
+	padding: 1em;
+	vertical-align: middle;
+	
+}
+
+#centered-bloc{
+	margin-top: -10%;
+}
+
+.form-group{
+	text-align: left;
+}
+
+form{
+	margin: 1em 0;
+}
+
+.navbar{
+	display: flex;
+	justify-content: space-between;
+}
+
+i{
+	margin: 0 0.5em;
+}
