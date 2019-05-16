@@ -5,4 +5,10 @@
 dashboard:
   path:       /dashboard
   controller: App\Controller\DashboardController::dashboard
+index:
+  path:       /
+  controller: App\Controller\SecurityController::login
+account:
+  path:       /account
+  controller: App\Controller\AccountController::account
 

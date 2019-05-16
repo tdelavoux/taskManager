@@ -1,21 +1,62 @@
+/* #############################################################################
+					Blocs principaux des pages
+################################################################################*/
+body{
+	max-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.navbar{
+	height: 60px;
+}
+
 #contentPage{
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 100vh;
+	height: calc(100vh - 60px);
 }
 
 #centered-bloc{
-	//border: solid 1px;
 	text-align: center;
 	padding: 1em;
 	vertical-align: middle;
+	margin-top: -1em;
 	
 }
 
-#centered-bloc{
-	margin-top: -10%;
+#wrapper{
+	flex:1;
 }
+
+.padding-page{
+	padding: 3em;
+}
+/* #############################################################################
+					Fonts Color et overwrite
+################################################################################*/
+
+i{
+	margin: 0 0.5em;
+}
+
+h5{
+	color: #fff;
+}
+
+.sidebar-header{
+	padding-left: 0.5em;
+}
+
+.adder{
+	color: #27ae60;
+}
+
+
+/* #############################################################################
+					Formulaires
+################################################################################*/
 
 .form-group{
 	text-align: left;
@@ -30,6 +71,62 @@ form{
 	justify-content: space-between;
 }
 
-i{
-	margin: 0 0.5em;
+/* #############################################################################
+					Cards
+################################################################################*/
+
+
+.order-card {
+    color: #fff;
 }
+.order-card:hover{
+   -moz-box-shadow: 3px 3px 30px #656565;
+	-webkit-box-shadow: 3px 3px 30px #656565;
+	-o-box-shadow: 3px 3px 30px  #656565;
+	box-shadow: 3px 3px 30px #656565;
+	
+}
+
+.bg-c-blue {
+    background: linear-gradient(45deg,#4099ff,#73b4ff);
+}
+
+.bg-c-green {
+    background: linear-gradient(45deg,#2ed8b6,#59e0c5);
+}
+
+.bg-c-yellow {
+    background: linear-gradient(45deg,#FFB64D,#ffcb80);
+}
+
+.bg-c-pink {
+    background: linear-gradient(45deg,#FF5370,#ff869a);
+}
+
+
+.card {
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    box-shadow: 0 1px 2.94px 0.06px rgba(4,26,55,0.16);
+    border: none;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+.card .card-block {
+    padding: 25px;
+}
+
+.order-card i {
+    font-size: 26px;
+}
+
+.f-left {
+    float: left;
+}
+
+.f-right {
+    float: right;
+}
+

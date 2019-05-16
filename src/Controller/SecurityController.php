@@ -17,7 +17,7 @@ class SecurityController extends AbstractController
 	*@Route("/inscription", name="security_registration")
 	*
 	*/
-   public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
+    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
 
 	   	$user = new User();
 
@@ -34,20 +34,27 @@ class SecurityController extends AbstractController
 	   	}
 
 	   	return $this->render('security/registration.html.twig', ['form' => $form->createView()]);
-   }
+    }
+
 
    /**
    * @Route("/connexion", name="security_login")
    *
    */
-   public function login(){
-   	return $this->render('security/login.html.twig');
-   }
+	public function login(){
 
-   /**
-   * @Route("/deconnexion", name="security_logout")
-   */
-   public function logout(){
-   	
-   }
+   		/* Redirige si déjà Logged*/
+	   	$securityContext = $this->container->get('security.authorization_checker');
+		if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+		    return $this->redirectToRoute('dashboard');		}
+
+   		return $this->render('security/login.html.twig');
+    }
+
+
+	/**
+	* @Route("/deconnexion", name="security_logout")
+	*/
+	public function logout(){}
+
 }
