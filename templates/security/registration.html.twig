@@ -23,7 +23,17 @@
 
 			{{ form_row(form.username, {'label': 'Utilisateur', 'attr' : {'placeholder' : 'Nom d\'utilisateur', 'data-row-class': 'form-group'}}) }}
 			{{ form_row(form.email, {'label': 'Email', 'attr' : {'placeholder' : 'pierre.dupont@email.com'}}) }}
-			{{ form_row(form.passwd, {'label': 'Mot de passe', 'attr' : {'placeholder' : '*******'}}) }}
+			<div class="form-group">
+				<label for="pass">Mot de passe</label>
+				{{ form_errors(form.passwd) }}
+				<div class="input-group">
+					{{ form_widget(form.passwd, {'label' : false, 'attr' : {'placeholder' : '*******', 'class' : 'pwd1' }, 'id' : 'pass', }) }}
+					<span class="input-group-append">
+			        	<button class="btn btn-outline-secondary reveal" data-int="1" type="button"><i class="fas fa-eye"></i></button>
+			        </span> 
+				</div>
+				<span id="passstrength" class=""></span> 
+			</div>
 
 		<button type="submit" class="btn btn-success"> S'inscrire ! </button>
 		{{ form_end(form) }}

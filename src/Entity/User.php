@@ -95,4 +95,15 @@ class User implements UserInterface
         return $this->passwd;
     }
 
+    /* ##############################  Fonctions de vérification des formulaires liés aux users ################################*/
+
+    public static function isEmailValid(string $email){
+
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+          return true;
+        } else {
+          return false;
+        }
+    }
+
 }

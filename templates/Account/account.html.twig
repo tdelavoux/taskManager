@@ -3,4 +3,100 @@
 
 {% block dashboardContent %}
 
+
+
+<!-- UI - X Starts -->
+<div class="ui-67">
+    
+    <!-- Head Starts -->
+    <div class="ui-head bg-lblue">
+        <!-- Details -->
+        <div class="ui-details">
+          <!-- Name -->
+          <h3 id="name-header">{{ name }}</h3>
+        </div>
+        <!-- Image -->
+        <div class="ui-image">
+          <!-- User Image -->
+          <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="75" height="100">
+        </div>
+    </div>
+      <!-- Head Ends -->
+      
+      <!-- Content Starts -->
+    <div class="ui-content container">
+
+        <div class="row form-page">
+          
+
+	        <div class="acc-col">
+	            <section>
+	              <h3>Contact Information</h3>
+		            <form class="ng-pristine ng-valid" role="form" action="{{ path('security_account') }}" method="post">
+		                <div class="row">
+		                   <div class="col-sm-12">
+		                    <label for="inputName" class="control-label">Name:</label>
+		                      <input type="text" required class="form-control" id="inputName" name="_username" value="{{ name }}">
+		                  </div>               
+		                </div>
+		                <div class="row">
+		                  <div class="col-sm-12">
+		                    <label for="inputEmail3" class="control-label">Email:</label>
+		                      <input type="email" required class="form-control" id="inputEmail"  name="_email"  value="{{ email }}">
+		                  </div>
+		                </div>
+		                <div class="col-sm-12">
+		                  <div class="btn-div">
+		                   <button type="submit" class="btn btn-primary">Mettre a jour</button>
+		                  </div>
+		                </div>
+	                </form>   
+	            </section>
+
+	           
+	          
+	          <section>
+	            <h3>Login Information</h3>
+	            <form role="form" action="{{ path('security_account_passwd') }}" method="post">
+	              <div class="row">
+	                <div class="col-sm-12">
+	                  <label for="inputEmail3" class="control-label">Ancien Password:</label>
+	                  <div class="input-group">
+	                    <input type="password" required class="form-control pwd1" name="_oldPasswd">
+	                    <span class="input-group-append">
+				        	<button class="btn btn-outline-secondary reveal" data-int="1" type="button"><i class="fas fa-eye"></i></button>
+				        </span> 
+	                  </div>
+	                </div>
+
+	                 <div class="col-sm-12">
+	                  <label for="inputEmail3" class="control-label">Nouveau Password:</label>
+	                  <div>
+	                  	<div class="input-group">
+		                    <input type="password" id="pass" required class="form-control pwd2" name="_newPasswd">
+		                    <span class="input-group-append">
+					        	<button class="btn btn-outline-secondary reveal" data-int="2" type="button"><i class="fas fa-eye"></i></button>
+					        </span> 
+		                </div>
+	                    <span id="passstrength" class=""></span> 
+	                  </div>
+	                </div>
+	                <div class="col-sm-12">
+	                  <div class="btn-div">
+	                    <button type="submit"  class="btn btn-warning">Changer</button>
+	                  </div>
+	                </div>
+	                    
+	              </div>
+	            </form>  
+	          </section>
+
+            </div>
+          <!-- col-8 -->
+        </div>
+
+    </div>
+  <!-- Content Ends -->
+</div>
+
 {% endblock %}

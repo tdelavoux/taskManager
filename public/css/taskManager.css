@@ -16,6 +16,8 @@ body{
 	justify-content: center;
 	align-items: center;
 	height: calc(100vh - 60px);
+	background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+/*	background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);*/
 }
 
 #centered-bloc{
@@ -23,6 +25,12 @@ body{
 	padding: 1em;
 	vertical-align: middle;
 	margin-top: -1em;
+	background-clip: padding-box;
+	background-color: #fff;
+	border: 1px solid rgba(0,0,0,.2);
+	border-radius: 1.1rem;
+	outline: 0;
+	max-width: 450px;
 	
 }
 
@@ -41,6 +49,10 @@ i{
 	margin: 0 0.5em;
 }
 
+h1,h2,h3{
+	/*font-family: 'Kaushan Script', cursive; */
+}
+
 h5{
 	color: #fff;
 }
@@ -54,9 +66,28 @@ h5{
 }
 
 
+.red{
+	color: #D52F2F;
+}
+
+.yellow{
+	color: #B59919;
+}
+
+.green{
+	color: #3BAF38;
+}
+
 /* #############################################################################
 					Formulaires
 ################################################################################*/
+
+.form-page{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 
 .form-group{
 	text-align: left;
@@ -129,4 +160,110 @@ form{
 .f-right {
     float: right;
 }
+
+
+/* #############################################################################
+					Tables et DataTables
+################################################################################*/
+
+tr:hover{
+	background-color: #F2F2F2;
+}
+
+.row-link{
+	color: #292929;
+}
+
+.row-link:hover{
+	color: #292929;
+}
+
+.row-link{
+	color: #292929;
+}
+
+
+/* #############################################################################
+					Form validators
+################################################################################*/
+
+
+
+
+/* #############################################################################
+					Account Page
+################################################################################*/
+
+.ui-67{
+	width:100%;
+}  
+
+/* Head */
+    .acc-col{
+      min-height: 200px;
+      margin-top: 5%;
+      background-color: #ffffff;
+      padding: 20px;
+
+    }
+    .acc-col > h3{
+      padding-bottom: 20px;
+    }
+    hr{
+      border:solid 1px #d6d6d6;
+    }
+    section > form > div{
+
+      padding: 5px;
+    }
+    .btn-div{
+
+      margin-top:10px;
+      padding-bottom: 10px;
+    }
+
+
+	.ui-67 .ui-head{
+		
+		text-align:center;
+		padding:30px 0px;
+		position:relative;
+		border-bottom:2px solid #fff;
+		box-shadow:0px 0px 5px rgba(0,0,0,0.1);
+		background-color: #1997c6;
+	}
+
+	
+	/* Details */
+	.ui-67 .ui-head .ui-details{
+		margin:0px 0px 74px;
+	}
+	.ui-67 .ui-head .ui-details h3{
+		color:#fff;
+		font-size:40px;
+
+		font-weight:300;
+	}
+	@media (max-width:400px){
+		.ui-67 .ui-head .ui-details h3{
+			font-size:25px;
+			font-weight:400;
+		}
+	}
+
+	/* Image */
+	.ui-67 .ui-head .ui-image{
+		width:100%;
+		position:absolute;
+		bottom:-55px;
+		z-index: 10;
+	}
+	.ui-67 .ui-head img{
+		width:100px;
+		border-radius:100%;
+		margin:0px auto;
+		border:4px solid #fff;
+		box-shadow:0px 0px 15px rgba(0,0,0,0.1);
+	}
+
 

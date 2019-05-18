@@ -19,6 +19,13 @@ class SecurityController extends AbstractController
 	*/
     public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder){
 
+    	/* Redirige si déjà Logged*/
+	   	$securityContext = $this->container->get('security.authorization_checker');
+		if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+		    return $this->redirectToRoute('dashboard');		
+		}
+
+		
 	   	$user = new User();
 
 	   	$form = $this->createForm(RegistrationType::class, $user);
@@ -46,7 +53,8 @@ class SecurityController extends AbstractController
    		/* Redirige si déjà Logged*/
 	   	$securityContext = $this->container->get('security.authorization_checker');
 		if ($securityContext->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-		    return $this->redirectToRoute('dashboard');		}
+		    return $this->redirectToRoute('dashboard');		
+		}
 
    		return $this->render('security/login.html.twig');
     }
