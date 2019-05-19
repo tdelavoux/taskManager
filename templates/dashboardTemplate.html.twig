@@ -29,10 +29,9 @@
 	      <i class="fas fa-user-circle fa-fw"></i>
 	    </a>
 	    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-	      <a class="dropdown-item" href="account">Mon Compte</a>
-	      <a class="dropdown-item" href="#">Activity Log</a>
+	      <a class="dropdown-item dashboardlink" href="account"><i class="fas fa-user-alt"></i> Mon Compte</a>
 	      <div class="dropdown-divider"></div>
-	      <a class="dropdown-item" href="deconnexion">Logout</a>
+	      <a class="dropdown-item" href="deconnexion"><i class="fas fa-sign-out-alt"></i> Logout</a>
 	    </div>
 	  </li>
 	</ul>
@@ -65,14 +64,14 @@
       	<li class="nav-item dropdown">
 	        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	          <i class="fas fa-users"></i>
-	          <span>Projets</span>
+	          <span>MesProjets</span>
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
 	          <h6 class="dropdown-header">Gérer les projets</h6>
-	          <a class="dropdown-item" href="">Projet 1</a>
-	          <a class="dropdown-item" href="">Projet 2</a>
-	          <a class="dropdown-item" href="">Projet 3</a>
-	          <a class="dropdown-item adder" href=""><i class="fas fa-plus-circle"></i>Nouveau Projet</a>
+	          {% for projet in mesProjets %}
+	          	<a class="dropdown-item" href="#"> {{ projet.libelle }}</a>
+	          {% endfor %}
+	          <a class="dropdown-item dashboardlink" href="newProjet"><i class="fas fa-plus-circle"></i>Nouveau Projet</a>
 	        </div>
     	</li>
       </li>
@@ -91,9 +90,12 @@
       </li>
     </ul>
 
+    
     <!-- Chargement du contenu de la page -->
-	{% block dashboardContent %}
-	{% endblock %}
+    <div id="dashboardContent">
+		{% block dashboardContent %}
+		{% endblock %}
+	</div>
 
 </div>
 

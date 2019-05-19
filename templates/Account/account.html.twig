@@ -1,102 +1,146 @@
-{% extends "dashboardTemplate.html.twig" %}
-
-
-{% block dashboardContent %}
-
-
-
-<!-- UI - X Starts -->
-<div class="ui-67">
-    
-    <!-- Head Starts -->
-    <div class="ui-head bg-lblue">
-        <!-- Details -->
-        <div class="ui-details">
-          <!-- Name -->
-          <h3 id="name-header">{{ name }}</h3>
+<!-- ////////////////  Affichages des mesages d'alerte /////////////// -->
+<div class="alertBloc">
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         </div>
-        <!-- Image -->
-        <div class="ui-image">
-          <!-- User Image -->
-          <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="75" height="100">
+    {% endfor %}
+
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger">
+            {{ message }}
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         </div>
+    {% endfor %}
+</div>
+
+<!-- Head Starts -->
+<div class="ui-head bg-lblue">
+    <!-- Details -->
+    <div class="ui-details">
+      <!-- Name -->
+      <h3 id="name-header">{{ name }}</h3>
     </div>
-      <!-- Head Ends -->
+    <!-- Image -->
+    <div class="ui-image">
+      <!-- User Image -->
+      <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="75" height="100">
+    </div>
+</div>
+  <!-- Head Ends -->
+  
+  <!-- Content Starts -->
+<div class="ui-content container">
+
+    <div class="row form-page">
       
-      <!-- Content Starts -->
-    <div class="ui-content container">
+        
+        <div class="acc-col">
 
-        <div class="row form-page">
-          
-
-	        <div class="acc-col">
-	            <section>
-	              <h3>Contact Information</h3>
-		            <form class="ng-pristine ng-valid" role="form" action="{{ path('security_account') }}" method="post">
-		                <div class="row">
-		                   <div class="col-sm-12">
-		                    <label for="inputName" class="control-label">Name:</label>
-		                      <input type="text" required class="form-control" id="inputName" name="_username" value="{{ name }}">
-		                  </div>               
-		                </div>
-		                <div class="row">
-		                  <div class="col-sm-12">
-		                    <label for="inputEmail3" class="control-label">Email:</label>
-		                      <input type="email" required class="form-control" id="inputEmail"  name="_email"  value="{{ email }}">
-		                  </div>
-		                </div>
-		                <div class="col-sm-12">
-		                  <div class="btn-div">
-		                   <button type="submit" class="btn btn-primary">Mettre a jour</button>
-		                  </div>
-		                </div>
-	                </form>   
-	            </section>
-
-	           
-	          
-	          <section>
-	            <h3>Login Information</h3>
-	            <form role="form" action="{{ path('security_account_passwd') }}" method="post">
-	              <div class="row">
-	                <div class="col-sm-12">
-	                  <label for="inputEmail3" class="control-label">Ancien Password:</label>
-	                  <div class="input-group">
-	                    <input type="password" required class="form-control pwd1" name="_oldPasswd">
-	                    <span class="input-group-append">
-				        	<button class="btn btn-outline-secondary reveal" data-int="1" type="button"><i class="fas fa-eye"></i></button>
-				        </span> 
-	                  </div>
+            <!-- Formulaire de modification des infos personnelles-->
+            <section>
+              <h3>Contact Information</h3>
+	            <form id="ajax-formInfos" class="ng-pristine ng-valid" role="form" action="{{ path('security_account') }}" method="post">
+	                <div class="row">
+	                   <div class="col-sm-12">
+	                    <label for="inputName" class="control-label">Name:</label>
+	                      <input type="text" required class="form-control" id="inputName" name="_username" value="{{ name }}">
+	                  </div>               
 	                </div>
-
-	                 <div class="col-sm-12">
-	                  <label for="inputEmail3" class="control-label">Nouveau Password:</label>
-	                  <div>
-	                  	<div class="input-group">
-		                    <input type="password" id="pass" required class="form-control pwd2" name="_newPasswd">
-		                    <span class="input-group-append">
-					        	<button class="btn btn-outline-secondary reveal" data-int="2" type="button"><i class="fas fa-eye"></i></button>
-					        </span> 
-		                </div>
-	                    <span id="passstrength" class=""></span> 
+	                <div class="row">
+	                  <div class="col-sm-12">
+	                    <label for="inputEmail3" class="control-label">Email:</label>
+	                      <input type="email" required class="form-control" id="inputEmail"  name="_email"  value="{{ email }}">
 	                  </div>
 	                </div>
 	                <div class="col-sm-12">
 	                  <div class="btn-div">
-	                    <button type="submit"  class="btn btn-warning">Changer</button>
+	                   <button type="submit" class="btn btn-primary" >Mettre a jour</button>
 	                  </div>
 	                </div>
-	                    
-	              </div>
-	            </form>  
-	          </section>
+                </form>   
+            </section>
+            <!-- Fin du Formulaire de modification des infos personnelles-->
+           
+          <!-- Formulaire de modification du MPD-->
+          <section>
+            <h3>Login Information</h3>
+            <form id="ajax-formPass" role="form" action="{{ path('security_account_passwd') }}" method="post">
+              <div class="row">
+                <div class="col-sm-12">
+                  <label for="inputEmail3" class="control-label">Ancien Password:</label>
+                  <div class="input-group">
+                    <input type="password" required class="form-control pwd1" id="inputOldPass" name="_oldPasswd">
+                    <span class="input-group-append">
+			        	<button class="btn btn-outline-secondary reveal" data-int="1" type="button"><i class="fas fa-eye"></i></button>
+			        </span> 
+                  </div>
+                </div>
 
-            </div>
-          <!-- col-8 -->
+                 <div class="col-sm-12">
+                  <label for="inputEmail3" class="control-label">Nouveau Password:</label>
+                  <div>
+                  	<div class="input-group">
+	                    <input type="password" required class="form-control pwd2" id="inputNewPass" name="_newPasswd">
+	                    <span class="input-group-append">
+				        	<button class="btn btn-outline-secondary reveal" data-int="2" type="button"><i class="fas fa-eye"></i></button>
+				        </span> 
+	                </div>
+                    <span id="passstrength" class=""></span> 
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="btn-div">
+                    <button type="submit"  class="btn btn-warning">Changer</button>
+                  </div>
+                </div>
+                    
+              </div>
+            </form>  
+          </section>
+           <!-- Fin de Formulaire de modification du MPD-->
+
         </div>
-
     </div>
-  <!-- Content Ends -->
 </div>
+<!-- Content Ends -->
 
-{% endblock %}
+<script>
+
+  $(function() {
+
+      /* ------------------------- Gestion AJAX du formulaire d'info personnelle -------------*/
+      var form = $('#ajax-formInfos');
+
+      $(form).submit(function(event) {
+          // Stop the browser from submitting the form.
+          event.preventDefault();
+
+          var formData = 'username='+ $('#inputName').val() + '&' + 'email=' + $('#inputEmail').val() ;
+
+          loadpage('#dashboardContent', 'modifyAccount', formData);
+      });
+
+      /* ----------------------  Gestion Ajax du formulaire des MDP ------------------------- */
+      var formPass = $('#ajax-formPass');
+
+      $(formPass).submit(function(event) {
+          // Stop the browser from submitting the form.
+          event.preventDefault();
+          var formData = 'oldPasswd='+ $('#inputOldPass').val() + '&' + 'newPasswd=' + $('#inputNewPass').val() ;
+
+          loadpage('#dashboardContent', 'modifyPasswd', formData);
+      });
+
+      /* ------------------- Fermeture automatique des alertes --------------------------- */
+      setTimeout(function(){
+        $(".alert").hide(); 
+      }, 4000);
+
+      revealPasswd();
+
+  });
+
+</script>
+

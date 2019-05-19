@@ -1,0 +1,35 @@
+
+ <!-- Content Starts -->
+<div class="ui-content container">
+
+    <div class="row form-page">
+      
+
+        <div class="acc-col">
+            <section>
+              <h3>Contact Information</h3>
+	            <form class="ng-pristine ng-valid" role="form" action="{{ path('security_account') }}" method="post">
+	                <div class="row">
+	                   <div class="col-sm-12">
+	                    <label for="inputName" class="control-label">Name:</label>
+	                      <input type="text" required class="form-control" id="inputName" name="_username" value="{{ name }}">
+	                  </div>               
+	                </div>
+	                <div class="row">
+	                  <div class="col-sm-12">
+	                    <label for="inputEmail3" class="control-label">Email:</label>
+	                      <input type="email" required class="form-control" id="inputEmail"  name="_email"  value="{{ email }}">
+	                  </div>
+	                </div>
+	                <div class="col-sm-12">
+	                  <div class="btn-div">
+	                   <button type="submit" class="btn btn-primary" >Mettre a jour</button>
+	                  </div>
+	                </div>
+                </form>   
+            </section>
+        </div>
+    </div>
+
+</div>
+
