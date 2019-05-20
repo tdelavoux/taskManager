@@ -36,6 +36,8 @@ $(function(){
     /* Application de l'écouteur des bouton de révélation des mots de passe */
     revealPasswd();
 
+    hideAlert();
+
 });
 
 
@@ -81,7 +83,7 @@ $(name).html(loading);
     $(name).html(await str.text());
   }
 
-
+  hideAlert();
 }
 
 /**
@@ -101,6 +103,17 @@ function revealPasswd(){
             $pwd.attr('type', 'password');
         }
     });
+}
+
+/**
+* Fermeture automatique des alertes après 4 secondes
+*
+*/
+function hideAlert(){
+
+      setTimeout(function(){
+        $(".alert").remove(); 
+      }, 4000);
 }
 
 

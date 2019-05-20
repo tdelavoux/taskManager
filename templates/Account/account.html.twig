@@ -1,19 +1,5 @@
-<!-- ////////////////  Affichages des mesages d'alerte /////////////// -->
-<div class="alertBloc">
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        </div>
-    {% endfor %}
 
-    {% for message in app.flashes('danger') %}
-        <div class="alert alert-danger">
-            {{ message }}
-            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        </div>
-    {% endfor %}
-</div>
+{% include 'alert.html.twig' %}
 
 <!-- Head Starts -->
 <div class="ui-head bg-lblue">
@@ -132,11 +118,6 @@
 
           loadpage('#dashboardContent', 'modifyPasswd', formData);
       });
-
-      /* ------------------- Fermeture automatique des alertes --------------------------- */
-      setTimeout(function(){
-        $(".alert").hide(); 
-      }, 4000);
 
       revealPasswd();
 

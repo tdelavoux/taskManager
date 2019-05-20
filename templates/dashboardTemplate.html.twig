@@ -5,6 +5,8 @@
 
 
 {% block body %}
+
+
 <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
 	<a class="navbar-brand mr-1" href="dashboard">Task Manager </a>
@@ -71,7 +73,7 @@
 	          {% for projet in mesProjets %}
 	          	<a class="dropdown-item" href="#"> {{ projet.libelle }}</a>
 	          {% endfor %}
-	          <a class="dropdown-item dashboardlink" href="newProjet"><i class="fas fa-plus-circle"></i>Nouveau Projet</a>
+	          <a class="dropdown-item adder dashboardlink" href="newProjet"><i class="fas fa-plus-circle"></i>Nouveau Projet</a>
 	        </div>
     	</li>
       </li>
@@ -91,9 +93,14 @@
     </ul>
 
     
+    
     <!-- Chargement du contenu de la page -->
     <div id="dashboardContent">
+
+    	
 		{% block dashboardContent %}
+
+			
 		{% endblock %}
 	</div>
 

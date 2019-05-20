@@ -1,12 +1,15 @@
 {# extends dashboardTemplate ans base #}
 
 {% extends "dashboardTemplate.html.twig" %}
-
+ 
 
 {% block dashboardContent %}
+
+    {% include 'alert.html.twig' %}
+
+
 <div class="container-fluid padding-page">
 
-    
 	<div class="row">
 		 <div class="col-md-4 col-xl-3">
             <div class="card bg-c-blue order-card">
