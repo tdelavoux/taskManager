@@ -1,0 +1,84 @@
+
+ <!-- Content Starts -->
+<div class="ui-content container">
+  <div class="conteneurProjet">
+
+    <!-- Header du projet -->
+    <div class="projectHeader">
+      <div class="inline">
+        <h1>{{ projet.libelle }} </h1><a class="modifyLink" href="#"><i class="fas fa-pen"></i></a>
+      </div>
+        {% if app.user is same as(projet.fkOwner) %}        <!-- Vérifie si la personne connecté est le propiétaire de la table-->
+         <h6>Vous êtes le propriétaire de ce tableau</h6>
+       {% endif %}
+    </div>
+    <!-- Fin de Header du projet -->
+
+    <!-- TeamMembers du projet -->
+    <div class="row teamMember">
+      <p> 35 personnes travaillent sur ce projet  :  </p>
+      <div class="ui-image">
+        <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30">
+      </div>
+    </div>
+    <!-- Fin des TeamMembers du projet -->
+
+    <!-- Ajout de table -->
+    <div class="row adderTable flex-row-reverse">
+      <button class="btn btn-primary">
+          <i class="fas fa-plus"></i>
+        </button>
+        <h4 class="align-middle">Ajouter un nouveau Tableau </h4>   
+    </div>
+    <!-- Fin d'Ajout de table -->
+
+    <div class="row tableauxProject card">
+
+      <div class="card-header tableHeader">
+        <h3>Marketing</h3>
+      </div>
+
+      <div class="statsTableau card-body">
+        <ul>
+          <li><i class="fas fa-running"></i> 3 Sprints</li>
+          <li><i class="fas fa-tasks"></i> 5 tâche(s) non affectée(s)</li>
+          <li><i class="fas fa-user-friends"></i> 6 collaborateurs participent</li>
+        </ul>
+
+        <div class="col-md-12">
+        <button class="btn btn-danger float-right">Cloturer ce tableau</button>
+        <button class="btn btn-primary float-right" style="margin: 0 1em ;">Voir le tableau</button>
+      </div>
+
+      </div>
+
+    </div>
+
+    <div class="row tableauxProject card">
+
+      <div class="card-header tableHeader">
+        <h3>Developpement</h3>
+      </div>
+
+      <div class="statsTableau card-body">
+        <ul>
+          <li><i class="fas fa-running"></i> 3 Sprints</li>
+          <li><i class="fas fa-tasks"></i> 5 tâche(s) non affectée(s)</li>
+          <li><i class="fas fa-user-friends"></i> 6 collaborateurs participent</li>
+        </ul>
+
+        <div class="col-md-12">
+        <button class="btn btn-danger float-right">Cloturer ce tableau</button>
+        <button class="btn btn-primary float-right" style="margin: 0 1em ;">Voir le tableau</button>
+      </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Fenêtre modale d'ajout de nouveau tableau -->
+
+

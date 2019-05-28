@@ -25,7 +25,13 @@ class DashboardController extends AbstractController
     //Récupéraiton des projets de l'utilisateur
     $myProjects = self::getMyProjects($user->getId());
 
-    $content = $twig->render("Dashboard/dashboard.html.twig", ['mesProjets' => $myProjects ]);
+    //Récupération des tableaux
+    $tableaux = array();
+    foreach($myProjects as $projet){
+      $tableaux[$projet->getId()] = $projet->getTableaux();
+    }
+
+    $content = $twig->render("Dashboard/dashboard.html.twig", ['mesProjets' => $myProjects, 'tableaux' => $tableaux ]);
 
     return new Response($content);
   }
@@ -38,5 +44,6 @@ class DashboardController extends AbstractController
 
     return $this->getDoctrine()->getRepository('App\Entity\Projet')->findBy(array( 'fkOwner' => $userId));
   }
+
 
 }

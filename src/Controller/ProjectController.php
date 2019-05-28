@@ -61,4 +61,22 @@ class ProjectController extends AbstractController
 
   /* ################################## Affichage projet ########################### */
 
+  /**
+  * @Route("/viewProjet/{idProjet}", name="view_projet"))
+  */
+  public function viewProjet(Environment $twig, $idProjet){
+
+    $em = $this->getDoctrine()->getRepository('App\Entity\Projet');
+    $user = $this->getUser();
+
+    $projet = $em->find($idProjet);
+
+    /* TODO Peupler la page*/
+
+
+    $content = $twig->render("Project/viewProject.html.twig", [ 'projet' => $projet ]);
+
+    return new Response($content);
+  }
+
 }

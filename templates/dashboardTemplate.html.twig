@@ -71,25 +71,33 @@
 	        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
 	          <h6 class="dropdown-header">Gérer les projets</h6>
 	          {% for projet in mesProjets %}
-	          	<a class="dropdown-item" href="#"> {{ projet.libelle }}</a>
+	          	<a class="dropdown-item dashboardlink" href="viewProjet/{{ projet.id }}"> {{ projet.libelle }}</a>
 	          {% endfor %}
 	          <a class="dropdown-item adder dashboardlink" href="newProjet"><i class="fas fa-plus-circle"></i>Nouveau Projet</a>
 	        </div>
     	</li>
       </li>
        <div class="dropdown-divider"></div>
-      <!-- Panneau Utilisateur -->
-      <h5 class="sidebar-header">Suivi de Projets</h5>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Projet 1</span>
-        </a>
-        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-          <a class="dropdown-item" href="">Tableau 1</a>
-          <a class="dropdown-item" href="">Tableau 2</a>
-        </div>
-      </li>
+
+
+    <!-- Affichage des différents -->
+    <h5 class="sidebar-header">Suivi de Projets</h5>
+
+    {% for projet in mesProjets %}
+    	<li class="nav-item dropdown">
+	      	<a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	          <i class="fas fa-fw fa-folder"></i>
+	          <span>{{  projet.libelle }}</span>
+	        </a>
+	        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+	        	<h6 class="dropdown-header">Gérer les projets</h6>
+			    {% for table in tableaux[projet.id] %}
+			    	<a class="dropdown-item" href="">{{ table.libelle }}</a>
+			    {% endfor %}
+		    </div>
+		</li>
+    {% endfor %}
+
     </ul>
 
     

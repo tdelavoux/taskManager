@@ -54,6 +54,9 @@ body{
 }
 
 
+.inline{
+	display: flex;
+}
 
 .padding-page{
 	padding: 3em;
@@ -67,7 +70,7 @@ i{
 }
 
 h1,h2,h3{
-	/*font-family: 'Kaushan Script', cursive; */
+
 }
 
 h5{
@@ -222,10 +225,12 @@ tr:hover{
       margin-top: 5%;
       background-color: #ffffff;
       padding: 20px;
+      margin-bottom: 1em;
 
     }
     .acc-col > h3{
       padding-bottom: 20px;
+
     }
     hr{
       border:solid 1px #d6d6d6;
@@ -285,6 +290,64 @@ tr:hover{
 	}
 
 
+/* #############################################################################
+					Projects Page
+################################################################################*/
+
+.conteneurProjet{
+	padding: 2em 0;
+}
+
+.projectHeader{
+	background-color: #9b59b6;
+	padding: 1em;
+	color: #fff;
+	border-radius: 10px;
+}
+
+.teamMember{
+	margin: 1em 0;
+	padding: 1em;
+	border-radius: 10px;
+}
+
+.adderTable button{
+	margin: 0 1em;
+}
+
+.tableauxProject{
+	margin: 1em 0;
+	
+}
+
+.statsTableau ul li{
+	list-style-type: none;
+	background-image: url(puce.gif);
+	background-repeat: no-repeat;
+	background-position: 0 0.32em;
+	padding-left: 15px;
+}
+
+.projectHeader a{
+	display:none;
+}
+
+.projectHeader:hover a {
+	display:block;
+}
+
+.modifyLink{
+	color: #fff;
+}
+
+.modifyLink > i{
+	top: 10px;
+}
+
+.modifyLink:hover{
+	color: #E8E4E4;
+}
+	
 
 /* #############################################################################
 					Alerts
