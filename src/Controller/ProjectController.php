@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Projet;
+use App\Entity\Tableau;
 
 use App\Entity\User;
 
@@ -38,7 +39,7 @@ class ProjectController extends AbstractController
 
 
   /**
-  * @Route("/addProjet", name="create_projet"))
+  * @Route("/addProjet", name="create_projet")
   */
   public function addProjet(Request $request){
 
@@ -62,7 +63,7 @@ class ProjectController extends AbstractController
   /* ################################## Affichage projet ########################### */
 
   /**
-  * @Route("/viewProjet/{idProjet}", name="view_projet"))
+  * @Route("/viewProjet/{idProjet}", name="view_projet")
   */
   public function viewProjet(Environment $twig, $idProjet){
 
@@ -73,10 +74,34 @@ class ProjectController extends AbstractController
 
     /* TODO Peupler la page*/
 
-
     $content = $twig->render("Project/viewProject.html.twig", [ 'projet' => $projet ]);
 
     return new Response($content);
+  }
+
+  /**
+  * @Route("/addTable", name="add_table")
+  */
+  public function addTable(Request $request){
+
+      // Récupétaion des information du formulaire et préparation de la requête
+      $em = $this->getDoctrine()->getRepository('App\Entity\Projet');
+      $libelle = $request->request->get('libelleTableau');
+      $projetId = $request->request->get('fkProjet');
+      $projet = $em->find($projetId);
+
+      $em = $this->getDoctrine()->getManager();
+
+      //Création du nouveau tableau
+      $tableau = new Tableau();
+      $tableau->setLibelle($libelle);
+      $tableau->setFkProjet($projet);
+      $em->persist($tableau);
+      $em->flush();
+
+      $this->addFlash('success', 'Tableau créé avec succès ! ');
+
+      exit();
   }
 
 }

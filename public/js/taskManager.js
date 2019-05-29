@@ -83,8 +83,51 @@ $(name).html(loading);
     $(name).html(await str.text());
   }
 
+  loadModalTraitment(name);
+
   hideAlert();
 }
+
+/**
+* Mise en place des écouteurs de fenêtres modal de traitement des informations des pages
+*
+*/
+function loadModalTraitment(name){
+
+    $('.modalAdder').click(async function(){
+
+        // récupération des données de formulaire modal
+        var params = getInputs();
+        var str = await fetch($(this).attr('href'), {  
+            method: "POST",  
+            body: params,
+            headers: { 'Content-type': 'application/x-www-form-urlencoded' } 
+          });
+        $($(this).attr('modale-name')).modal('hide');
+        loadpage(name, $(this).attr('data-page'), null);
+    });
+}
+
+
+/**
+* Récupération des données de formulaires des fenêtres modale
+* Utilisé lors d'appels fetch pour masquer l'action d'inscription en BDD
+*/
+function getInputs(){
+    var params = '';
+    var and = '';
+    $('.data-input').each(function(){
+        params += and +  $(this).attr('name') + '=' + $(this).val();
+        and='&';
+    });
+
+    return params;
+}
+
+
+/* ###############################################################################################
+                    Fonctions utilitaires
+##################################################################################################*/
 
 /**
 * Ecouteurs des boutons d'affichage / masquage des mots de passe
