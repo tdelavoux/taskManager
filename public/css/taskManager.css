@@ -51,6 +51,7 @@ body{
 	max-height: 100%;
 	flex: 1;
 	overflow: auto;
+	margin-bottom: 3em;
 }
 
 
@@ -110,7 +111,6 @@ h5{
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-bottom: 3em;
 }
 
 
@@ -350,6 +350,21 @@ tr:hover{
 	
 
 /* #############################################################################
+					Affichage des tableaux
+################################################################################*/
+
+.td-sprint-table, .sprint-table{
+	border: 1px solid white;
+	padding: 8px;
+	border-collapse: separate;
+}
+
+
+.text-cell{	
+	background-color:#F1F0F0;
+}
+
+/* #############################################################################
 					Alerts
 ################################################################################*/
 
@@ -359,4 +374,24 @@ tr:hover{
     right:2%;
     z-index: 1;
      width: 30%;
+}
+
+/* #############################################################################
+					Color Picker
+################################################################################*/
+.picker {
+	border-radius: 5px;
+	width: 36px;
+	height: 36px;
+	cursor: pointer;
+	-webkit-transition: all linear .2s;
+	-moz-transition: all linear .2s;
+	-ms-transition: all linear .2s;
+	-o-transition: all linear .2s;
+	transition: all linear .2s;
+	border: thin solid #eee;
+}
+.picker:hover {
+	transform: scale(1.1);
+
 }

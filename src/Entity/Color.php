@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TableauRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ColorRepository")
  */
-class Tableau
+class Color
 {
     /**
      * @ORM\Id()
@@ -19,21 +19,19 @@ class Tableau
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=50)
      */
     private $libelle;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Projet", inversedBy="tableaux")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", length=7)
      */
-    private $fkProjet;
+    private $hexa;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Sprint", mappedBy="fkTableau")
+     * @ORM\OneToMany(targetEntity="App\Entity\Sprint", mappedBy="fkColor")
      */
     private $sprints;
-
 
     public function __construct()
     {
@@ -57,14 +55,14 @@ class Tableau
         return $this;
     }
 
-    public function getFkProjet(): ?Projet
+    public function getHexa(): ?string
     {
-        return $this->fkProjet;
+        return $this->hexa;
     }
 
-    public function setFkProjet(?Projet $fkProjet): self
+    public function setHexa(string $hexa): self
     {
-        $this->fkProjet = $fkProjet;
+        $this->hexa = $hexa;
 
         return $this;
     }
@@ -81,7 +79,7 @@ class Tableau
     {
         if (!$this->sprints->contains($sprint)) {
             $this->sprints[] = $sprint;
-            $sprint->setFkTableau($this);
+            $sprint->setFkColor($this);
         }
 
         return $this;
@@ -92,12 +90,11 @@ class Tableau
         if ($this->sprints->contains($sprint)) {
             $this->sprints->removeElement($sprint);
             // set the owning side to null (unless already changed)
-            if ($sprint->getFkTableau() === $this) {
-                $sprint->setFkTableau(null);
+            if ($sprint->getFkColor() === $this) {
+                $sprint->setFkColor(null);
             }
         }
 
         return $this;
     }
-
 }

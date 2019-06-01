@@ -1,0 +1,132 @@
+{% include 'alert.html.twig' %}
+
+
+<!-- Content Starts -->
+<div class="ui-content container">
+  <div class="conteneurProjet">
+
+  	<h1>{{ tableau.libelle }}</h1>
+  	
+  	<!-- Ajout de table -->
+    {% if app.user is same as(projet.fkOwner) %}   
+    <div class="row adderTable flex-row-reverse">
+      <button class="btn btn-primary" data-toggle="modal" data-target="#modaleAjoutSprint">
+          <i class="fas fa-plus"></i>
+        </button>
+        <h4 class="align-middle">Ajouter un nouveau Sprint </h4>   
+    </div>
+    {% endif %}
+    <!-- Fin d'Ajout de table -->
+
+    <!-- Affichage des Sprints -->
+    {% for sprint in sprints %}
+  	<div class="row">
+	  	<div class="containerSprint col-md-12">
+	  		<table class="sprint-table">
+	  			<thead >
+	  				<tr>
+		  				<th style="width: 10px;"></th>
+		  				<th style="color: {{ sprint.fkColor.hexa }};"><h3>{{ sprint. libelle }}</h3></th>
+		  				<th class="text-center">Person</th>
+		  				<th class="text-center">Status</th>
+		  				<th class="text-center">Priority</th>
+		  				<th class="text-center">deadline</th>
+		  			</tr>
+	  			</thead>
+
+	  			<tbody>
+	  				<tr>
+		  				<td style="width: 10px; background-color:{{ sprint.fkColor.hexa }};" class=""></td>
+		  				<td class="text-cell td-sprint-table col-md-5">Aménagement des trucs</td>
+		  				<td class="text-cell td-sprint-table text-center col-md-1"> <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30"></td>
+		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52D055;">En Cours</td>
+		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52B1D0;">Pas pressé</td>
+		  				<td class="text-cell td-sprint-table text-center col-md-2">25/06/2019</td>
+		  			</tr>
+		  			<tr>
+		  				<td style="width: 10px; background-color:{{ sprint.fkColor.hexa }};" class=""></td>
+		  				<td class="text-cell td-sprint-table col-md-5">Aménagement des trucs</td>
+		  				<td class="text-cell td-sprint-table text-center col-md-1"> <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30"></td>
+		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52D055;">En Cours</td>
+		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52B1D0;">Pas pressé</td>
+		  				<td class="text-cell td-sprint-table text-center col-md-2">25/06/2019</td>
+		  			</tr>
+		  			<tr>
+		  				<td style="width: 10px; background-color:{{ sprint.fkColor.hexa }};" class=""></td>
+		  				<td class="text-cell td-sprint-table col-md-5">Aménagement des trucs</td>
+		  				<td class="text-cell td-sprint-table text-center col-md-1"> <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30"></td>
+		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52D055;">En Cours</td>
+		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52B1D0;">Pas pressé</td>
+		  				<td class="text-cell td-sprint-table text-center col-md-2">25/06/2019</td>
+		  			</tr>
+	  			</tbody>
+	  		</table>
+	  		<div class="col-md-12">
+		  		<button class="btn btn-success float-right"><i class="fas fa-plus"></i> ADD</button>
+		  	</div>
+	  	</div>
+
+	</div>
+	{% endfor %}
+	<!-- Fin d'Affichage des Sprints -->
+
+ </div>
+</div>
+
+
+<!-- Fenêtre modale d'ajout de nouveau tableau -->
+<div id="modaleAjoutSprint" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Nouveau Tableau</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="libelleSprint">Titre du Sprint</label>
+          <input type="text" maxlength="50" class="form-control data-input" id="libelleSprint" name="libelleSprint" placeholder="Sprint name">
+        </div>
+        <div class="form-group">
+          <label for="picker">Couleur</label>
+          <div class="picker"></div>
+          <input type="hidden" name="colorHex" id="colorHex" class="data-input" value="">
+        </div>
+        <input type="hidden" class="data-input" name="fkTableau" value="{{ tableau.id }}">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary modalAdder" modale-name="#modaleAjoutSprint" data-page="viewTableau/{{ tableau.id }}" href="addSprint">Créer le sprint</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+ <script>
+ 	// ---- Mise en place du color picker avec les données en BDD
+    $(".picker").colorPick();
+
+    $(".picker").colorPick({
+		'initialColor' : '#74b9ff',
+		'palette': [
+		 {% for color in colors %}
+			"{{ color.hexa }}", 
+		 {% endfor %}
+		],
+		'onColorSelected': function() {
+			this.element.css({'backgroundColor': this.color, 'color': this.color});
+		},
+		'paletteLabel': 'Couleur du sprint'
+	});
+
+    // Mise en input de la valeur Hexa de la couleur sélectionée
+    $(".picker").click(function() {
+    	$(".colorPickButton").click(function() {
+    		$('#colorHex').val($(this).attr('hexvalue'));
+	    })
+    });
+	
+ </script>

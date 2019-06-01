@@ -1,3 +1,4 @@
+{% include 'alert.html.twig' %}
 
  <!-- Content Starts -->
 <div class="ui-content container">
@@ -24,57 +25,39 @@
     <!-- Fin des TeamMembers du projet -->
 
     <!-- Ajout de table -->
+    {% if app.user is same as(projet.fkOwner) %}   
     <div class="row adderTable flex-row-reverse">
       <button class="btn btn-primary" data-toggle="modal" data-target="#modaleAjoutTableau">
           <i class="fas fa-plus"></i>
         </button>
         <h4 class="align-middle">Ajouter un nouveau Tableau </h4>   
     </div>
+    {% endif %}
     <!-- Fin d'Ajout de table -->
 
-    <div class="row tableauxProject card">
+    <!-- Affichage des cartes de projets -->
+    {% for table in tableaux%}
+      <div class="row tableauxProject card">
 
-      <div class="card-header tableHeader">
-        <h3>Marketing</h3>
+        <div class="card-header tableHeader">
+          <h3>{{ table.libelle }}</h3>
+        </div>
+
+        <div class="statsTableau card-body">
+          <ul>
+            <li><i class="fas fa-running"></i> 3 Sprints</li>
+            <li><i class="fas fa-tasks"></i> 5 tâche(s) non affectée(s)</li>
+            <li><i class="fas fa-user-friends"></i> 6 collaborateurs participent</li>
+          </ul>
+
+          <div class="col-md-12">
+            <button class="btn btn-danger float-right">Cloturer ce tableau</button>
+            <a class="btn btn-primary float-right insideLiks" href="viewTableau/{{ table.id }}" style="margin: 0 1em ;">Voir le tableau</a>
+          </div>
+        </div>
       </div>
-
-      <div class="statsTableau card-body">
-        <ul>
-          <li><i class="fas fa-running"></i> 3 Sprints</li>
-          <li><i class="fas fa-tasks"></i> 5 tâche(s) non affectée(s)</li>
-          <li><i class="fas fa-user-friends"></i> 6 collaborateurs participent</li>
-        </ul>
-
-        <div class="col-md-12">
-        <button class="btn btn-danger float-right">Cloturer ce tableau</button>
-        <button class="btn btn-primary float-right" style="margin: 0 1em ;">Voir le tableau</button>
-      </div>
-
-      </div>
-
-    </div>
-
-    <div class="row tableauxProject card">
-
-      <div class="card-header tableHeader">
-        <h3>Developpement</h3>
-      </div>
-
-      <div class="statsTableau card-body">
-        <ul>
-          <li><i class="fas fa-running"></i> 3 Sprints</li>
-          <li><i class="fas fa-tasks"></i> 5 tâche(s) non affectée(s)</li>
-          <li><i class="fas fa-user-friends"></i> 6 collaborateurs participent</li>
-        </ul>
-
-        <div class="col-md-12">
-        <button class="btn btn-danger float-right">Cloturer ce tableau</button>
-        <button class="btn btn-primary float-right" style="margin: 0 1em ;">Voir le tableau</button>
-      </div>
-
-      </div>
-
-    </div>
+    {% endfor %}
+    <!-- FIN d'Affichage des cartes de projets -->
 
   </div>
 </div>
@@ -102,4 +85,5 @@
       </div>
     </div>
   </div>
+</div>
 

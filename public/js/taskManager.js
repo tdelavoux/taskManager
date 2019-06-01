@@ -83,12 +83,19 @@ $(name).html(loading);
     $(name).html(await str.text());
   }
 
+  // Placement des écouteurs de fenêtre modale de traitement
   loadModalTraitment(name);
+
+  // Placement des écouteurs de chargement ajax de page dashboard depuis l'intérieur d'une page
+  $('.insideLiks').click( function(e) {
+      e.preventDefault();
+      loadpage(name, this.getAttribute('href'), null);
+    });
 
   hideAlert();
 }
 
-/**
+/** -----------------------------------------------------------------------------------
 * Mise en place des écouteurs de fenêtres modal de traitement des informations des pages
 *
 */
