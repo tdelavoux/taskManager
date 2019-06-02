@@ -92,7 +92,7 @@
 	        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
 	        	<h6 class="dropdown-header">Gérer les projets</h6>
 			    {% for table in tableaux[projet.id] %}
-			    	<a class="dropdown-item" href="">{{ table.libelle }}</a>
+			    	<a class="dropdown-item dashboardlink" href="viewTableau/{{ table.id }}">{{ table.libelle }}</a>
 			    {% endfor %}
 		    </div>
 		</li>

@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\SprintRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\StatutRepository")
  */
-class Sprint
+class Statut
 {
     /**
      * @ORM\Id()
@@ -24,19 +24,13 @@ class Sprint
     private $libelle;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Color", inversedBy="sprints")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Color", inversedBy="statuts")
      * @ORM\JoinColumn(nullable=false)
      */
     private $fkColor;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Tableau", inversedBy="sprints")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $fkTableau;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Tache", mappedBy="fkSprint")
+     * @ORM\OneToMany(targetEntity="App\Entity\Tache", mappedBy="fkStatut")
      */
     private $taches;
 
@@ -74,18 +68,6 @@ class Sprint
         return $this;
     }
 
-    public function getFkTableau(): ?Tableau
-    {
-        return $this->fkTableau;
-    }
-
-    public function setFkTableau(?Tableau $fkTableau): self
-    {
-        $this->fkTableau = $fkTableau;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Tache[]
      */
@@ -98,7 +80,7 @@ class Sprint
     {
         if (!$this->taches->contains($tach)) {
             $this->taches[] = $tach;
-            $tach->setFkSprint($this);
+            $tach->setFkStatut($this);
         }
 
         return $this;
@@ -109,12 +91,11 @@ class Sprint
         if ($this->taches->contains($tach)) {
             $this->taches->removeElement($tach);
             // set the owning side to null (unless already changed)
-            if ($tach->getFkSprint() === $this) {
-                $tach->setFkSprint(null);
+            if ($tach->getFkStatut() === $this) {
+                $tach->setFkStatut(null);
             }
         }
 
         return $this;
     }
-
 }

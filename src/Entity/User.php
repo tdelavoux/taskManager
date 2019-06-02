@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -39,6 +41,17 @@ class User implements UserInterface
      * @Assert\Length(min="3", minMessage="Votre mot de passe doit faire 3 caractères")
      */
     private $passwd;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Tache", mappedBy="fkUser")
+     */
+    private $taches;
+
+
+    public function __construct()
+    {
+        $this->taches = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -104,6 +117,37 @@ class User implements UserInterface
         } else {
           return false;
         }
+    }
+
+    /**
+     * @return Collection|Tache[]
+     */
+    public function getTaches(): Collection
+    {
+        return $this->taches;
+    }
+
+    public function addTach(Tache $tach): self
+    {
+        if (!$this->taches->contains($tach)) {
+            $this->taches[] = $tach;
+            $tach->setFkUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTach(Tache $tach): self
+    {
+        if ($this->taches->contains($tach)) {
+            $this->taches->removeElement($tach);
+            // set the owning side to null (unless already changed)
+            if ($tach->getFkUser() === $this) {
+                $tach->setFkUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

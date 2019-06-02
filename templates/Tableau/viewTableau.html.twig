@@ -22,11 +22,11 @@
     {% for sprint in sprints %}
   	<div class="row">
 	  	<div class="containerSprint col-md-12">
-	  		<table class="sprint-table">
+	  		<table class="sprint-table col-md-12">
 	  			<thead >
 	  				<tr>
 		  				<th style="width: 10px;"></th>
-		  				<th style="color: {{ sprint.fkColor.hexa }};"><h3>{{ sprint. libelle }}</h3></th>
+		  				<th style="color: {{ sprint.fkColor.hexa }};"><h3>{{ sprint.libelle }}</h3></th>
 		  				<th class="text-center">Person</th>
 		  				<th class="text-center">Status</th>
 		  				<th class="text-center">Priority</th>
@@ -35,34 +35,20 @@
 	  			</thead>
 
 	  			<tbody>
+	  				{% for tache in sprint.taches %}
 	  				<tr>
 		  				<td style="width: 10px; background-color:{{ sprint.fkColor.hexa }};" class=""></td>
-		  				<td class="text-cell td-sprint-table col-md-5">Aménagement des trucs</td>
+		  				<td class="text-cell td-sprint-table col-md-5">{{ tache.libelle }}</td>
 		  				<td class="text-cell td-sprint-table text-center col-md-1"> <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30"></td>
 		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52D055;">En Cours</td>
 		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52B1D0;">Pas pressé</td>
 		  				<td class="text-cell td-sprint-table text-center col-md-2">25/06/2019</td>
 		  			</tr>
-		  			<tr>
-		  				<td style="width: 10px; background-color:{{ sprint.fkColor.hexa }};" class=""></td>
-		  				<td class="text-cell td-sprint-table col-md-5">Aménagement des trucs</td>
-		  				<td class="text-cell td-sprint-table text-center col-md-1"> <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30"></td>
-		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52D055;">En Cours</td>
-		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52B1D0;">Pas pressé</td>
-		  				<td class="text-cell td-sprint-table text-center col-md-2">25/06/2019</td>
-		  			</tr>
-		  			<tr>
-		  				<td style="width: 10px; background-color:{{ sprint.fkColor.hexa }};" class=""></td>
-		  				<td class="text-cell td-sprint-table col-md-5">Aménagement des trucs</td>
-		  				<td class="text-cell td-sprint-table text-center col-md-1"> <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30"></td>
-		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52D055;">En Cours</td>
-		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52B1D0;">Pas pressé</td>
-		  				<td class="text-cell td-sprint-table text-center col-md-2">25/06/2019</td>
-		  			</tr>
+		  			{% endfor %}
 	  			</tbody>
 	  		</table>
 	  		<div class="col-md-12">
-		  		<button class="btn btn-success float-right"><i class="fas fa-plus"></i> ADD</button>
+		  		<button data-toggle="modal" data-target="#modaleAjoutTache" data-sprint="{{ sprint.id }}" class="btn btn-success float-right"><i class="fas fa-plus"></i> ADD</button>
 		  	</div>
 	  	</div>
 
@@ -73,6 +59,8 @@
  </div>
 </div>
 
+
+<!-- ############################### Fenêtres modales ###################################################### -->
 
 <!-- Fenêtre modale d'ajout de nouveau tableau -->
 <div id="modaleAjoutSprint" class="modal" tabindex="-1" role="dialog">
@@ -104,29 +92,84 @@
   </div>
 </div>
 
+<!-- Fenêtre modale d'ajout de nouveau tableau -->
+<div id="modaleAjoutTache" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Nouvelle tâche</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
 
- <script>
- 	// ---- Mise en place du color picker avec les données en BDD
-    $(".picker").colorPick();
+        <div class="form-group">
+          <label for="libelleTache">Descriptif de la tâche</label>
+          <input type="text" maxlength="50" class="form-control data-input" id="libelleTache" name="libelleTache" placeholder="Chose à faire ...">
+        </div>
 
-    $(".picker").colorPick({
-		'initialColor' : '#74b9ff',
-		'palette': [
-		 {% for color in colors %}
-			"{{ color.hexa }}", 
-		 {% endfor %}
-		],
-		'onColorSelected': function() {
-			this.element.css({'backgroundColor': this.color, 'color': this.color});
-		},
-		'paletteLabel': 'Couleur du sprint'
-	});
+        <div class="form-group">
+          <label for="libelleTache">Deadline</label>
+           <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
+              <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
+              <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+              </div>
+            </div>
+        </div>
 
-    // Mise en input de la valeur Hexa de la couleur sélectionée
-    $(".picker").click(function() {
-    	$(".colorPickButton").click(function() {
-    		$('#colorHex').val($(this).attr('hexvalue'));
-	    })
-    });
-	
- </script>
+        <div class="form-group">
+          <label for="commentTache">Commentaire (optionel)</label>
+          <textarea type="text" maxlength="250" class="form-control data-input" id="commentTache" name="commentTache" placeholder="Commentaire ou lien"></textarea>
+        </div>
+
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input data-input" id="userTache" value="self" name="userTache">
+          <label class="form-check-label" for="userTache">M'attibuer cette tache</label>
+        </div>
+
+        <input type="hidden" class="data-input" name="fkTableau" value="">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary modalAdder" modale-name="#modaleAjoutTableau" data-page="viewProjet/{{ projet.id }}" href="addTable">Créer le tableau</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ############################### Fenêtres modales ###################################################### -->
+<script>
+
+	// ---- Mise en place du color picker avec les données en BDD
+  $(".picker").colorPick();
+
+  $(".picker").colorPick({
+  	'initialColor' : '#74b9ff',
+  	'palette': [
+  	 {% for color in colors %}
+  		"{{ color.hexa }}", 
+  	 {% endfor %}
+  	],
+  	'onColorSelected': function() {
+  		this.element.css({'backgroundColor': this.color, 'color': this.color});
+  	},
+  	'paletteLabel': 'Couleur du sprint'
+  });
+
+  // Mise en input de la valeur Hexa de la couleur sélectionée
+  $(".picker").click(function() {
+  	$(".colorPickButton").click(function() {
+  		$('#colorHex').val($(this).attr('hexvalue'));
+    })
+  });
+
+  $(function () {
+      $('#datetimepicker4').datetimepicker({
+          format: 'L'
+      });
+  });
+
+</script>
