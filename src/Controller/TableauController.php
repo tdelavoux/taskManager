@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 class TableauController extends AbstractController
 {
 
-  /* ################################## Fonctions de création de nouveau tableau ########################### */
+  /* ################################## Fonctions de création et modification de nouveau tableau ########################### */
 
   /**
   * @Route("/addTable", name="add_table")
@@ -25,10 +25,10 @@ class TableauController extends AbstractController
   public function addTable(Request $request){
 
       // Récupétaion des information du formulaire et préparation de la requête
-      $em = $this->getDoctrine()->getRepository('App\Entity\Projet');
-      $libelle = $request->request->get('libelleTableau');
+      $em       = $this->getDoctrine()->getRepository('App\Entity\Projet');
+      $libelle  = $request->request->get('libelleTableau');
       $projetId = $request->request->get('fkProjet');
-      $projet = $em->find($projetId);
+      $projet   = $em->find($projetId);
 
       $em = $this->getDoctrine()->getManager();
 
@@ -39,10 +39,35 @@ class TableauController extends AbstractController
       $em->persist($tableau);
       $em->flush();
 
-      $this->addFlash('success', 'Tableau créé avec succès ! '); /* TODO voir comment implémenter avec fetch pour affichage sur la page ? ==> MEssage correctement implémenté dans la page ? */
+      $this->addFlash('success', 'Tableau créé avec succès ! ');
 
       exit();
   }
+
+  /**
+   * @Route("/deleteTableau/{idTableau}", name="delete_tableau")
+   */
+   public function deleteTableau(Request $request, $idTableau){
+
+      /* ToDo suppression totale des taches, sprint puis du tableau */
+      $em       = $this->getDoctrine()->getRepository('App\Entity\Tableau');
+      $tableau  = $em->find($idTableau);
+
+      $em = $this->getDoctrine()->getManager();
+
+      foreach($tableau->getSprints() as $sprint){
+        foreach($sprint->getTaches() as $tache){
+          $em->remove($tache);
+        }
+        $em->remove($sprint);
+      }
+      $em->remove($tableau);
+      $em->flush();
+
+      $this->addFlash('success', 'Tableau supprimé avec succès ! ');
+
+      return $this->redirectToRoute('dashboard');
+   }
 
   /* ################################## Affichage projet ########################### */
 
@@ -51,18 +76,18 @@ class TableauController extends AbstractController
   */
   public function viewTableau(Environment $twig, $idTableau){
 
-    $em = $this->getDoctrine()->getRepository('App\Entity\Tableau');
-    $tableau = $em->find($idTableau);
+    $em       = $this->getDoctrine()->getRepository('App\Entity\Tableau');
+    $tableau  = $em->find($idTableau);
 
-    $em = $this->getDoctrine()->getRepository('App\Entity\Projet');
-    $projet = $em->find($tableau->getFkProjet());
+    $em       = $this->getDoctrine()->getRepository('App\Entity\Projet');
+    $projet   = $em->find($tableau->getFkProjet());
 
-    $sprints = $tableau->getSprints();
+    $sprints  = $tableau->getSprints();
 
-    $em = $this->getDoctrine()->getRepository('App\Entity\Color');
-    $colors = $em->findBy(array());
+    $em       = $this->getDoctrine()->getRepository('App\Entity\Color');
+    $colors   = $em->findBy(array());
 
-    $content = $twig->render("Tableau/viewTableau.html.twig", [ 'tableau' => $tableau, 'projet' => $projet, 'sprints' => $sprints, 'colors' => $colors ]);
+    $content  = $twig->render("Tableau/viewTableau.html.twig", [ 'tableau' => $tableau, 'projet' => $projet, 'sprints' => $sprints, 'colors' => $colors ]);
 
     return new Response($content);
   }

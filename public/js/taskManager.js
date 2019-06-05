@@ -105,6 +105,7 @@ function loadModalTraitment(name){
 
         // récupération des données de formulaire modal
         var params = getInputs();
+        console.log(params);
         var str = await fetch($(this).attr('href'), {  
             method: "POST",  
             body: params,

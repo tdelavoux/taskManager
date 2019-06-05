@@ -292,7 +292,7 @@ form{
 ################################################################################*/
 
 .conteneurProjet{
-	padding: 2em 0;
+	padding: 2em 3em;
 }
 
 .projectHeader{
@@ -351,14 +351,17 @@ form{
 ################################################################################*/
 
 .td-sprint-table, .sprint-table{
-	border: 1px solid white;
-	padding: 8px;
+	padding: 5px;
 	border-collapse: separate;
 }
 
 
 .text-cell{	
 	background-color:#F1F0F0;
+}
+
+.menuButtonLine{
+	margin: 1em 0;
 }
 
 /* #############################################################################

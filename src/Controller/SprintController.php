@@ -45,13 +45,13 @@ class SprintController extends AbstractController
         $em->persist($sprint);
         $em->flush();
 
-        $this->addFlash('success', 'Sprint créé avec succès ! '); /* TODO voir comment implémenter avec fetch pour affichage sur la page ? ==> MEssage correctement implémenté dans la page ? */
+        $this->addFlash('success', 'Sprint créé avec succès ! '); 
 
         exit();
       }
 
 
-      $this->addFlash('danger', 'Libellé vide ou couleur incorecte ! '); /* TODO voir comment implémenter avec fetch pour affichage sur la page ? ==> MEssage correctement implémenté dans la page ? */
+      $this->addFlash('danger', 'Libellé vide ou couleur incorecte ! ');
 
       exit();
   }

@@ -2,19 +2,22 @@
 
 
 <!-- Content Starts -->
-<div class="ui-content container">
+<div class="ui-content">
   <div class="conteneurProjet">
 
   	<h1>{{ tableau.libelle }}</h1>
   	
   	<!-- Ajout de table -->
-    {% if app.user is same as(projet.fkOwner) %}   
-    <div class="row adderTable flex-row-reverse">
-      <button class="btn btn-primary" data-toggle="modal" data-target="#modaleAjoutSprint">
-          <i class="fas fa-plus"></i>
-        </button>
-        <h4 class="align-middle">Ajouter un nouveau Sprint </h4>   
-    </div>
+    {% if app.user is same as(projet.fkOwner) %}  
+
+    <div class="row adderTable menuButtonLine  flex-row-reverse dropdown">
+      <button id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"class="btn btn-secondary"><i class="fas fa-bars"></i></button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" data-toggle="modal" data-target="#modaleAjoutSprint" href="#">Ajouter un sprint</button>
+        <a class="dropdown-item" data-toggle="modal" data-target="#deleteTable"  href="#">Supprimer le tableau</a>
+      </div>
+    </div> 
+
     {% endif %}
     <!-- Fin d'Ajout de table -->
 
@@ -39,16 +42,20 @@
 	  				<tr>
 		  				<td style="width: 10px; background-color:{{ sprint.fkColor.hexa }};" class=""></td>
 		  				<td class="text-cell td-sprint-table col-md-5">{{ tache.libelle }}</td>
+              <!-- /* TODO Insertion de l'image de la personne si elle existe */ -->
 		  				<td class="text-cell td-sprint-table text-center col-md-1"> <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30"></td>
-		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52D055;">En Cours</td>
-		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:#52B1D0;">Pas pressé</td>
-		  				<td class="text-cell td-sprint-table text-center col-md-2">25/06/2019</td>
+		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:{{ tache.fkStatut.fkColor.hexa }};">{{ tache.fkStatut.libelle }}</td>
+		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:{{ tache.fkPriorite.fkColor.hexa }};">{{ tache.fkPriorite.libelle }}</td>
+		  				<td class="text-cell td-sprint-table text-center col-md-2">
+                {% if tache.deadline %}
+                  {{ tache.deadline|date('d/m/Y') }}
+              {% endif %}</td>
 		  			</tr>
 		  			{% endfor %}
 	  			</tbody>
 	  		</table>
 	  		<div class="col-md-12">
-		  		<button data-toggle="modal" data-target="#modaleAjoutTache" data-sprint="{{ sprint.id }}" class="btn btn-success float-right"><i class="fas fa-plus"></i> ADD</button>
+		  		<button data-toggle="modal" data-target="#modaleAjoutTache" data-sprint="{{ sprint.id }}" class="btn btn-success btn-add-tache float-right"><i class="fas fa-plus"></i> ADD</button>
 		  	</div>
 	  	</div>
 
@@ -62,7 +69,7 @@
 
 <!-- ############################### Fenêtres modales ###################################################### -->
 
-<!-- Fenêtre modale d'ajout de nouveau tableau -->
+<!-- Fenêtre modale d'ajout de nouveau sprint -->
 <div id="modaleAjoutSprint" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -92,7 +99,28 @@
   </div>
 </div>
 
-<!-- Fenêtre modale d'ajout de nouveau tableau -->
+<!-- Fenêtre modale de supression d'un tableau -->
+<div id="deleteTable" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Supprimer le Tableau ?</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Attention,cette action supprimera définitivement le tableau. Voulez vous continuer ? </p>
+      </div>
+      <div class="modal-footer">
+        <a type="button" class="btn btn-danger" modale-name="#deleteTable" href="deleteTableau/{{ tableau.id }}">Supprimer le Tableau</a>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fenêtre modale d'ajout de nouvelle tache -->
 <div id="modaleAjoutTache" class="modal" tabindex="-1" role="dialog">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -112,7 +140,7 @@
         <div class="form-group">
           <label for="libelleTache">Deadline</label>
            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-              <input type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
+              <input type="text" name="deadline" class="form-control datetimepicker-input data-input" data-target="#datetimepicker4"/>
               <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
               </div>
@@ -125,14 +153,14 @@
         </div>
 
         <div class="form-check">
-          <input type="checkbox" class="form-check-input data-input" id="userTache" value="self" name="userTache">
+          <input type="checkbox" class="form-check-input data-check-input" id="userTache" value="1" name="userTache">
           <label class="form-check-label" for="userTache">M'attibuer cette tache</label>
         </div>
 
-        <input type="hidden" class="data-input" name="fkTableau" value="">
+        <input type="hidden" class="data-input" name="fkSprint" id="fkSprint" value="">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary modalAdder" modale-name="#modaleAjoutTableau" data-page="viewProjet/{{ projet.id }}" href="addTable">Créer le tableau</button>
+        <button type="button" class="btn btn-primary modalAdder" modale-name="#modaleAjoutTache" data-page="viewTableau/{{ tableau.id }}" href="addTache">Créer la tâche</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
       </div>
     </div>
@@ -169,6 +197,11 @@
   $(function () {
       $('#datetimepicker4').datetimepicker({
           format: 'L'
+      });
+
+      // Mise a jour de la modale d'ajout avec les infos du sprint sélectionné
+      $('.btn-add-tache').click(function(){
+        $('#fkSprint').val($(this).attr('data-sprint'));
       });
   });
 
