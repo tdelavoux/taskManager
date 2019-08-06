@@ -6,6 +6,21 @@
   <div class="conteneurProjet">
 
   	<h1>{{ tableau.libelle }}</h1>
+
+    <div class="alertBloc">
+
+          <div class="alert alert-success">
+              <i class="far fa-check-square"></i> Modification effectuée avec succès
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          </div>
+
+
+          <div class="alert alert-danger">
+              <i class="far fa-times-circle"></i> Modification impossible, une erreur est survenue
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+          </div>
+
+  </div>
   	
   	<!-- Ajout de table -->
     {% if app.user is same as(projet.fkOwner) %}  
@@ -44,8 +59,44 @@
 		  				<td class="text-cell td-sprint-table col-md-5">{{ tache.libelle }}</td>
               <!-- /* TODO Insertion de l'image de la personne si elle existe */ -->
 		  				<td class="text-cell td-sprint-table text-center col-md-1"> <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30"></td>
-		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:{{ tache.fkStatut.fkColor.hexa }};">{{ tache.fkStatut.libelle }}</td>
-		  				<td class="td-sprint-table font-weight-bold text-center col-md-2" style="color:#fff; background-color:{{ tache.fkPriorite.fkColor.hexa }};">{{ tache.fkPriorite.libelle }}</td>
+		  				<td id="selectorStatus_{{ sprint.id }}_{{ tache.id }}"
+                  class="td-sprint-table hvr-curl-top-right font-weight-bold text-center tdPointer col-md-2 tdSelector StatusSelector"
+                  data-toggle="popover" 
+                  tabindex="0"
+                  data-trigger="focus"               
+                  title="Status selector"
+                  data-content='{% for statut in status %}
+                                  <button data-tache-id="{{ tache.id }}" 
+                                          data-type-id="{{ statut.id }}"
+                                          data-target="{{ constant('App\\Controller\\TacheController::TACHE_STATUT') }}"
+                                          data-to-change="selectorStatus_{{ sprint.id }}_{{ tache.id }}"
+                                          class="btn btn-success form-control BtnSelector" 
+                                          style="color:#fff; 
+                                          background-color:{{ statut.fkColor.hexa }};"> 
+                                    {{ statut.libelle }} 
+                                  </button> 
+                                {% endfor %}'
+                  style="color:#fff; background-color:{{ tache.fkStatut.fkColor.hexa }};">{{ tache.fkStatut.libelle }}
+              </td>
+		  				<td id="selectorPriority_{{ sprint.id }}_{{ tache.id }}"
+                  class="td-sprint-table hvr-curl-top-right font-weight-bold text-center tdPointer col-md-2 tdSelector PioritySelector"
+                  data-toggle="popover" 
+                  tabindex="0"
+                  data-trigger="focus"               
+                  title="Priority selector"
+                  data-content='{% for priority in priorities %}
+                                  <button data-tache-id="{{ tache.id }}" 
+                                          data-type-id="{{ priority.id }}"
+                                          data-target="{{ constant('App\\Controller\\TacheController::TACHE_PRIORITE') }}"
+                                          data-to-change="selectorStatus_{{ sprint.id }}_{{ tache.id }}"
+                                          class="btn btn-success form-control BtnSelector" 
+                                          style="color:#fff; 
+                                          background-color:{{ priority.fkColor.hexa }};"> 
+                                    {{ priority.libelle }} 
+                                  </button> 
+                                {% endfor %}'
+                  style="color:#fff; background-color:{{ tache.fkPriorite.fkColor.hexa }};">{{ tache.fkPriorite.libelle }}
+              </td>
 		  				<td class="text-cell td-sprint-table text-center col-md-2">
                 {% if tache.deadline %}
                   {{ tache.deadline|date('d/m/Y') }}
@@ -62,7 +113,6 @@
 	</div>
 	{% endfor %}
 	<!-- Fin d'Affichage des Sprints -->
-
  </div>
 </div>
 
@@ -195,6 +245,8 @@
   });
 
   $(function () {
+      $(".alert").remove(); 
+
       $('#datetimepicker4').datetimepicker({
           format: 'L'
       });
@@ -203,6 +255,46 @@
       $('.btn-add-tache').click(function(){
         $('#fkSprint').val($(this).attr('data-sprint'));
       });
+
+      //implémentation du PopOver
+      $('[data-toggle="popover"]').popover({
+        placement: "bottom",
+        autofocus: false,
+        html: true
+      }); 
+
+      // Application de la sélection du picker personnalisé (status et priority)
+      $('.tdSelector').click(function(){
+        var selector = $(this);
+        $('.BtnSelector').click(function(){
+
+          // -------------> Modifications Visuelles
+          selector.css('backgroundColor', $(this).css('backgroundColor'));
+          selector.html($(this).text());
+
+          //--------------> Modification BDD
+          genericFetch('updateTache/'+ $(this).attr('data-target')+'-' + $(this).attr('data-tache-id') + '-' + $(this).attr('data-type-id'));
+        });
+      });
+      
   });
+
+
+  async function genericFetch(fname){
+    var str = await fetch(fname);
+    var alert = await str.text();
+    if(alert === 'ok'){
+      $('.alertBloc').html('<div class="alert alert-success">'+
+              '<i class="far fa-check-square"></i> Modification effectuée avec succès'+
+              '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
+          '</div>');
+    }else{
+      $('.alertBloc').html('<div class="alert alert-danger">'+
+              '<i class="far fa-check-square"></i> Modification effectuée avec succès'+
+              '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
+          '</div>');
+    }
+    hideAlert();
+  }
 
 </script>

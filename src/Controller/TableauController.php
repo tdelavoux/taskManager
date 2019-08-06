@@ -69,25 +69,31 @@ class TableauController extends AbstractController
       return $this->redirectToRoute('dashboard');
    }
 
-  /* ################################## Affichage projet ########################### */
+  /* ################################## Affichage projet ########################################################## */
 
   /**
   * @Route("/viewTableau/{idTableau}", name="view_tableau")
   */
   public function viewTableau(Environment $twig, $idTableau){
 
-    $em       = $this->getDoctrine()->getRepository('App\Entity\Tableau');
-    $tableau  = $em->find($idTableau);
+    $em         = $this->getDoctrine()->getRepository('App\Entity\Tableau');
+    $tableau    = $em->find($idTableau);
 
-    $em       = $this->getDoctrine()->getRepository('App\Entity\Projet');
-    $projet   = $em->find($tableau->getFkProjet());
+    $em         = $this->getDoctrine()->getRepository('App\Entity\Projet');
+    $projet     = $em->find($tableau->getFkProjet());
 
-    $sprints  = $tableau->getSprints();
+    $sprints    = $tableau->getSprints();
 
-    $em       = $this->getDoctrine()->getRepository('App\Entity\Color');
-    $colors   = $em->findBy(array());
+    $em         = $this->getDoctrine()->getRepository('App\Entity\Color');
+    $colors     = $em->findBy(array());
 
-    $content  = $twig->render("Tableau/viewTableau.html.twig", [ 'tableau' => $tableau, 'projet' => $projet, 'sprints' => $sprints, 'colors' => $colors ]);
+    $em         = $this->getDoctrine()->getRepository('App\Entity\Statut');
+    $status     = $em->findBy(array());
+
+    $em         = $this->getDoctrine()->getRepository('App\Entity\Priorite');
+    $priorities = $em->findBy(array());
+
+    $content    = $twig->render("Tableau/viewTableau.html.twig", [ 'tableau' => $tableau, 'projet' => $projet, 'sprints' => $sprints, 'colors' => $colors, 'status' => $status, 'priorities' => $priorities ]);
 
     return new Response($content);
   }

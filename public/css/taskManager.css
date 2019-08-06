@@ -71,7 +71,7 @@ i{
 }
 
 h1,h2,h3{
-
+	font-family: 'Roboto Slab', serif;
 }
 
 h5{
@@ -344,7 +344,11 @@ form{
 .modifyLink:hover{
 	color: #E8E4E4;
 }
-	
+
+.BtnSelector{
+	margin-top: 0.5em;
+}
+
 
 /* #############################################################################
 					Affichage des tableaux
@@ -362,6 +366,10 @@ form{
 
 .menuButtonLine{
 	margin: 1em 0;
+}
+
+.tdPointer{
+	cursor: pointer;
 }
 
 /* #############################################################################

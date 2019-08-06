@@ -14,9 +14,15 @@ use App\Entity\Tache;
 use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
-
 class TacheController extends AbstractController
 {
+  
+  // Définition des constantes
+  // TODO implémenter les autres valeurs modifiables
+  const TACHE_LIBELLE   = 'libelle';
+  const TACHE_USER      = 'fk_user_id';
+  const TACHE_STATUT    = 'fk_statut_id';
+  const TACHE_PRIORITE  = 'fk_priorite_id';
 
   /* ################################## Fonctions de création de nouvelle tache ########################### */
 
@@ -86,4 +92,74 @@ class TacheController extends AbstractController
   }
 
 
+
+  /* ################################## Fonctions de modification de tache ########################### */
+
+  /**
+   * @Route("/updateTache/{fieldToUpdate}-{tacheId}-{newValue}", name="update_tache")
+   * Point d'entrée de la modification d'une tache, permet le routage vers la fonction concernée.
+   * Fonction appelé via Ajax pour une modification en arrière plan
+   * 
+   * @param STR       $fieldToUpdate  Champ à modifier, utiliser les contantes de la classe
+   * @param INT       $tacheId        id de la tâche a modifier
+   * @param UNDEFINE  $newValue       Nouvelle valeur modificatrice
+   */
+  public function updateTache(Request $request, $fieldToUpdate, $tacheId, $newValue){
+
+    switch($fieldToUpdate){
+      case self::TACHE_STATUT :
+        return $this->updateStatut($tacheId, $newValue);
+        break;
+
+      case self::TACHE_PRIORITE : 
+        return $this->updatePriorite($tacheId, $newValue);
+        break;
+
+    }
+  }
+
+  /**
+   * Modification du statut d'une tâche.
+   * 
+   * @param INT $tacheId  id de la tâche à modifier
+   * @param INT $newValue id du nouveau statut
+   * 
+   */
+  public function updateStatut($tacheId, $newValue){
+
+    $em         = $this->getDoctrine()->getRepository('App\Entity\Statut');
+    $statut      = $em->find($newValue);
+
+    $em         = $this->getDoctrine()->getRepository('App\Entity\Tache');
+    $tache      = $em->find($tacheId);
+
+    $em = $this->getDoctrine()->getManager();
+    $tache->setFkStatut($statut);
+    $em->flush();
+
+    return new Response('ok');
+
+  }
+
+  /**
+   * Modification de la priorité d'une tâche.
+   * 
+   * @param INT $tacheId  id de la tâche à modifier
+   * @param INT $newValue id de la nouvelle priorité
+   * 
+   */
+  public function updatePriorite($tacheId, $newValue){
+
+    $em         = $this->getDoctrine()->getRepository('App\Entity\Priorite');
+    $priorite   = $em->find($newValue);
+
+    $em         = $this->getDoctrine()->getRepository('App\Entity\Tache');
+    $tache      = $em->find($tacheId);
+
+    $em = $this->getDoctrine()->getManager();
+    $tache->setFkPriorite($priorite);
+    $em->flush();
+    return new Response('ok');
+
+  }
 }
