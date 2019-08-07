@@ -40,7 +40,7 @@ class TacheController extends AbstractController
       $deadline       = self::formatDate($request->request->get('deadline'));
       $commentTache   = $request->request->get('commentTache');
       $em             = $this->getDoctrine()->getRepository('App\Entity\User');
-      $userTache      = $request->request->get('userTache') ?  $em->find($this->getUser()->getId()) : null;
+      $userTache      = $request->request->get('userTache') !== null ? $em->find( $this->getUser()->getId()) : null;
       $em             = $this->getDoctrine()->getRepository('App\Entity\Statut');
       $statut         = $em->find(1);
       $em             = $this->getDoctrine()->getRepository('App\Entity\Priorite');

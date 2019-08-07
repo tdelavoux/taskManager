@@ -69,7 +69,7 @@
 	          <span>MesProjets</span>
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-	          <h6 class="dropdown-header">Gérer les projets</h6>
+	          <h6 class="dropdown-header">Gérer mes projet</h6>
 	          {% for projet in mesProjets %}
 	          	<a class="dropdown-item dashboardlink" href="viewProjet/{{ projet.id }}"> {{ projet.libelle }}</a>
 	          {% endfor %}
@@ -90,7 +90,7 @@
 	          <span>{{  projet.libelle }}</span>
 	        </a>
 	        <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-	        	<h6 class="dropdown-header">Gérer les projets</h6>
+	        	<h6 class="dropdown-header">Tableaux du projet</h6>
 			    {% for table in tableaux[projet.id] %}
 			    	<a class="dropdown-item dashboardlink" href="viewTableau/{{ table.id }}">{{ table.libelle }}</a>
 			    {% endfor %}

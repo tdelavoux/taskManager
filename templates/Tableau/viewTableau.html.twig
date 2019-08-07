@@ -64,7 +64,11 @@
                         data-target-modif="{{ constant('App\\Controller\\TacheController::TACHE_LIBELLE') }}" />
               </td>
               <!-- /* TODO Insertion de l'image de la personne si elle existe */ -->
-		  				<td class="text-cell td-sprint-table text-center col-md-1"> <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30"></td>
+		  				<td class="text-cell td-sprint-table text-center col-md-1">
+                {% if tache.fkUser %}
+                  <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30">
+                {% endif %}
+              </td>
 		  				<td id="selectorStatus_{{ sprint.id }}_{{ tache.id }}"
                   class="td-sprint-table hvr-curl-top-right font-weight-bold text-center tdPointer col-md-2 tdSelector StatusSelector"
                   data-toggle="popover" 
@@ -202,13 +206,13 @@
 
         <div class="form-group">
           <label for="libelleTache">Descriptif de la tâche</label>
-          <input type="text" maxlength="50" class="form-control data-input" id="libelleTache" name="libelleTache" placeholder="Chose à faire ...">
+          <input type="text" maxlength="50" class="form-control data-input data-input-modal" id="libelleTache" name="libelleTache" placeholder="Chose à faire ...">
         </div>
 
         <div class="form-group">
           <label for="libelleTache">Deadline</label>
            <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-              <input type="text" name="deadline" class="form-control datetimepicker-input data-input" data-target="#datetimepicker4"/>
+              <input type="text" name="deadline" class="form-control datetimepicker-input data-input data-input-modal" data-target="#datetimepicker4"/>
               <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
               </div>
@@ -217,15 +221,15 @@
 
         <div class="form-group">
           <label for="commentTache">Commentaire (optionel)</label>
-          <textarea type="text" maxlength="250" class="form-control data-input" id="commentTache" name="commentTache" placeholder="Commentaire ou lien"></textarea>
+          <textarea type="text" maxlength="250" class="form-control data-input data-input-modal" id="commentTache" name="commentTache" placeholder="Commentaire ou lien"></textarea>
         </div>
 
         <div class="form-check">
-          <input type="checkbox" class="form-check-input data-check-input" id="userTache" value="1" name="userTache">
+          <input type="checkbox" class="form-check-input data-input-modal data-check-input" id="userTache" value="checked" name="userTache">
           <label class="form-check-label" for="userTache">M'attibuer cette tache</label>
         </div>
 
-        <input type="hidden" class="data-input" name="fkSprint" id="fkSprint" value="">
+        <input type="hidden" class="data-input data-input-modal" name="fkSprint" id="fkSprint" value="">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary modalAdder" modale-name="#modaleAjoutTache" data-page="viewTableau/{{ tableau.id }}" href="addTache">Créer la tâche</button>

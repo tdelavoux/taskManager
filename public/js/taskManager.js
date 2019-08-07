@@ -105,7 +105,7 @@ function loadModalTraitment(name){
 
         // récupération des données de formulaire modal
         var params = getInputs();
-        console.log(params);
+        //console.log(params);
         var str = await fetch($(this).attr('href'), {  
             method: "POST",  
             body: params,
@@ -124,9 +124,13 @@ function loadModalTraitment(name){
 function getInputs(){
     var params = '';
     var and = '';
-    $('.data-input').each(function(){
-        params += and +  $(this).attr('name') + '=' + $(this).val();
-        and='&';
+    $('.data-input-modal').each(function(){
+        if($(this).attr('type') === 'checkbox' && !$(this).is(":checked")){ // prise en compte des checkbox
+
+        }else{
+          params += and +  $(this).attr('name') + '=' + $(this).val();
+          and='&';
+        }
     });
 
     return params;
