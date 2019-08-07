@@ -61,7 +61,7 @@
                         class="form-control inputFull inputLibelleTache" 
                         data-tache-id="{{ tache.id }}"
                         data-comparative-value="{{ tache.libelle }}"
-                        data-target="{{ constant('App\\Controller\\TacheController::TACHE_LIBELLE') }}" />
+                        data-target-modif="{{ constant('App\\Controller\\TacheController::TACHE_LIBELLE') }}" />
               </td>
               <!-- /* TODO Insertion de l'image de la personne si elle existe */ -->
 		  				<td class="text-cell td-sprint-table text-center col-md-1"> <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30"></td>
@@ -74,7 +74,7 @@
                   data-content='{% for statut in status %}
                                   <button data-tache-id="{{ tache.id }}" 
                                           data-type-id="{{ statut.id }}"
-                                          data-target="{{ constant('App\\Controller\\TacheController::TACHE_STATUT') }}"
+                                          data-target-modif="{{ constant('App\\Controller\\TacheController::TACHE_STATUT') }}"
                                           data-to-change="selectorStatus_{{ sprint.id }}_{{ tache.id }}"
                                           class="btn btn-success form-control BtnSelector" 
                                           style="color:#fff; 
@@ -93,7 +93,7 @@
                   data-content='{% for priority in priorities %}
                                   <button data-tache-id="{{ tache.id }}" 
                                           data-type-id="{{ priority.id }}"
-                                          data-target="{{ constant('App\\Controller\\TacheController::TACHE_PRIORITE') }}"
+                                          data-target-modif="{{ constant('App\\Controller\\TacheController::TACHE_PRIORITE') }}"
                                           data-to-change="selectorStatus_{{ sprint.id }}_{{ tache.id }}"
                                           class="btn btn-success form-control BtnSelector" 
                                           style="color:#fff; 
@@ -104,9 +104,19 @@
                   style="color:#fff; background-color:{{ tache.fkPriorite.fkColor.hexa }};">{{ tache.fkPriorite.libelle }}
               </td>
 		  				<td class="text-cell td-sprint-table text-center col-md-2">
-                {% if tache.deadline %}
-                  {{ tache.deadline|date('d/m/Y') }}
-              {% endif %}</td>
+                <div class="input-group date" id="datetimepicker3" data-target-input="nearest">
+                  <input  type="text" 
+                          name="deadline" 
+                          class="form-control datetimepicker-input data-input inputFull inputDate" 
+                          data-target="#datetimepicker3"
+                          data-tache-id="{{ tache.id }}"
+                          data-target-modif="{{ constant('App\\Controller\\TacheController::TACHE_DEADLINE') }}"
+                          value="{% if tache.deadline %}{{ tache.deadline|date('d/m/Y') }}{% endif %}"/>
+                  <div class="input-group-append inputFull" data-target="#datetimepicker3" data-toggle="datetimepicker">
+                      <div class="input-group-text inputFull"><i class="fa fa-calendar"></i></div>
+                  </div>
+                </div>
+              </td>
 		  			</tr>
 		  			{% endfor %}
 	  			</tbody>
@@ -258,6 +268,9 @@
       $('#datetimepicker4').datetimepicker({
           format: 'DD/MM/YYYY'
       });
+      $('#datetimepicker3').datetimepicker({
+          format: 'DD/MM/YYYY'
+      });
 
       // Mise a jour de la modale d'ajout avec les infos du sprint sélectionné
       $('.btn-add-tache').click(function(){
@@ -281,7 +294,7 @@
           selector.html($(this).text());
 
           //--------------> Modification BDD
-          genericFetch('updateTache/'+ $(this).attr('data-target')+'-' + $(this).attr('data-tache-id') + '-' + $(this).attr('data-type-id'));
+          genericFetch('updateTache/'+ $(this).attr('data-target-modif')+'-' + $(this).attr('data-tache-id') + '-' + $(this).attr('data-type-id'));
         });
       });
 
@@ -289,8 +302,15 @@
       // La mise a jour est effectuée uniquement quand les libellés sont modifiés
       $('.inputLibelleTache').focusout(function(){
           if($(this).val() !== $(this).attr('data-comparative-value')){
-            genericFetch('updateTache/'+ $(this).attr('data-target')+'-'+ $(this).attr('data-tache-id') +'-'+ $(this).val());
+            genericFetch('updateTache/'+ $(this).attr('data-target-modif')+'-'+ $(this).attr('data-tache-id') +'-'+ $(this).val());
+            $(this).attr('data-comparative-value', $(this).val());
           }
+      });
+
+      // Mise a jour de la date de deadline d'une tâche
+      // La mise a jour est effectuée uniquement en cas de modification
+      $('.inputDate').focusout(function(){
+          genericFetch('updateTache/'+ $(this).attr('data-target-modif')+'-'+ $(this).attr('data-tache-id') +'-'+ $(this).val().split('/').join('='));
       });
       
   });
@@ -310,6 +330,7 @@
               '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
           '</div>');
     }
+    $('body').append(alert);
     hideAlert();
   }
 

@@ -23,6 +23,7 @@ class TacheController extends AbstractController
   const TACHE_USER      = 'fk_user_id';
   const TACHE_STATUT    = 'fk_statut_id';
   const TACHE_PRIORITE  = 'fk_priorite_id';
+  const TACHE_DEADLINE  = 'deadline';
 
   /* ################################## Fonctions de création de nouvelle tache ########################### */
 
@@ -90,6 +91,17 @@ class TacheController extends AbstractController
     return new \DateTime($temp[2].'-'.$temp[1].'-'.$temp[0]);
   }
 
+  /**
+   * Formatage de la deadline en Date pour Doctrine
+   * @param STR $deadline   date de deadline de la tâche
+   */
+  public function formatDate2($deadline){
+    if($deadline === "")
+      return null;
+    $temp = explode('=', $deadline);
+    return new \DateTime($temp[2].'-'.$temp[1].'-'.$temp[0]);
+  }
+
 
 
   /* ################################## Fonctions de modification de tache ##################################### */
@@ -118,6 +130,9 @@ class TacheController extends AbstractController
         return $this->updateLibelle($tacheId, $newValue);
         break;
 
+      case self::TACHE_DEADLINE :
+        return $this->updateDeadline($tacheId, $newValue);
+        break;
     }
   }
 
@@ -180,6 +195,27 @@ class TacheController extends AbstractController
 
     $em = $this->getDoctrine()->getManager();
     $tache->setLibelle($newValue);
+    $em->flush();
+    return new Response('ok');
+
+  }
+
+  /**
+   * Modification de la deadline d'une tache
+   * 
+   * @param INT $tacheId  id de la tâche à modifier
+   * @param INT $newValue valeur de la nouvelle deadline
+   * 
+   */
+  public function updateDeadline($tacheId, $newValue){
+
+    $em         = $this->getDoctrine()->getRepository('App\Entity\Tache');
+    $tache      = $em->find($tacheId);
+
+    $deadline       = self::formatDate2($newValue);
+
+    $em = $this->getDoctrine()->getManager();
+    $tache->setDeadline($deadline);
     $em->flush();
     return new Response('ok');
 
