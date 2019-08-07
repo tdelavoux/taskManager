@@ -56,7 +56,13 @@
 	  				{% for tache in sprint.taches %}
 	  				<tr>
 		  				<td style="width: 10px; background-color:{{ sprint.fkColor.hexa }};" class=""></td>
-		  				<td class="text-cell td-sprint-table col-md-5">{{ tache.libelle }}</td>
+		  				<td class="text-cell td-sprint-table col-md-5">
+                <input  value="{{ tache.libelle }}" 
+                        class="form-control inputFull inputLibelleTache" 
+                        data-tache-id="{{ tache.id }}"
+                        data-comparative-value="{{ tache.libelle }}"
+                        data-target="{{ constant('App\\Controller\\TacheController::TACHE_LIBELLE') }}" />
+              </td>
               <!-- /* TODO Insertion de l'image de la personne si elle existe */ -->
 		  				<td class="text-cell td-sprint-table text-center col-md-1"> <img src="{{ asset('images/profil/man.png') }}" alt="Profile Picture" class="img-responsive" width="30" height="30"></td>
 		  				<td id="selectorStatus_{{ sprint.id }}_{{ tache.id }}"
@@ -105,6 +111,8 @@
 		  			{% endfor %}
 	  			</tbody>
 	  		</table>
+
+        <!-- Bouton d'ajout de nouvelle tâche dans un sprint -->
 	  		<div class="col-md-12">
 		  		<button data-toggle="modal" data-target="#modaleAjoutTache" data-sprint="{{ sprint.id }}" class="btn btn-success btn-add-tache float-right"><i class="fas fa-plus"></i> ADD</button>
 		  	</div>
@@ -248,7 +256,7 @@
       $(".alert").remove(); 
 
       $('#datetimepicker4').datetimepicker({
-          format: 'L'
+          format: 'DD/MM/YYYY'
       });
 
       // Mise a jour de la modale d'ajout avec les infos du sprint sélectionné
@@ -276,6 +284,14 @@
           genericFetch('updateTache/'+ $(this).attr('data-target')+'-' + $(this).attr('data-tache-id') + '-' + $(this).attr('data-type-id'));
         });
       });
+
+      // Mise a jour des champs de libellé des tâches
+      // La mise a jour est effectuée uniquement quand les libellés sont modifiés
+      $('.inputLibelleTache').focusout(function(){
+          if($(this).val() !== $(this).attr('data-comparative-value')){
+            genericFetch('updateTache/'+ $(this).attr('data-target')+'-'+ $(this).attr('data-tache-id') +'-'+ $(this).val());
+          }
+      });
       
   });
 
@@ -290,7 +306,7 @@
           '</div>');
     }else{
       $('.alertBloc').html('<div class="alert alert-danger">'+
-              '<i class="far fa-check-square"></i> Modification effectuée avec succès'+
+              '<i class="far fa-check-square"></i> Modification impossible, une erreur est survenue'+
               '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'+
           '</div>');
     }

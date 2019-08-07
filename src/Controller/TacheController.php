@@ -77,7 +77,6 @@ class TacheController extends AbstractController
    */
   public function verifyForm($libelle){
     return trim($libelle) === "" ? false : true;
-    /* TODO cérification du bon format de la date*/
   }
 
   /**
@@ -88,12 +87,12 @@ class TacheController extends AbstractController
     if($deadline === "")
       return null;
     $temp = explode('/', $deadline);
-    return new \DateTime($temp[2].'-'.$temp[0].'-'.$temp[1]);
+    return new \DateTime($temp[2].'-'.$temp[1].'-'.$temp[0]);
   }
 
 
 
-  /* ################################## Fonctions de modification de tache ########################### */
+  /* ################################## Fonctions de modification de tache ##################################### */
 
   /**
    * @Route("/updateTache/{fieldToUpdate}-{tacheId}-{newValue}", name="update_tache")
@@ -113,6 +112,10 @@ class TacheController extends AbstractController
 
       case self::TACHE_PRIORITE : 
         return $this->updatePriorite($tacheId, $newValue);
+        break;
+
+      case self::TACHE_LIBELLE :
+        return $this->updateLibelle($tacheId, $newValue);
         break;
 
     }
@@ -158,6 +161,25 @@ class TacheController extends AbstractController
 
     $em = $this->getDoctrine()->getManager();
     $tache->setFkPriorite($priorite);
+    $em->flush();
+    return new Response('ok');
+
+  }
+
+  /**
+   * Modification du libellé d'une tâche.
+   * 
+   * @param INT $tacheId  id de la tâche à modifier
+   * @param INT $newValue valeur du nouveau libellé
+   * 
+   */
+  public function updateLibelle($tacheId, $newValue){
+
+    $em         = $this->getDoctrine()->getRepository('App\Entity\Tache');
+    $tache      = $em->find($tacheId);
+
+    $em = $this->getDoctrine()->getManager();
+    $tache->setLibelle($newValue);
     $em->flush();
     return new Response('ok');
 
