@@ -2777,6 +2777,7 @@
         },
         {
             "name": "symfony/http-foundation",
+          
             "version": "v4.4.11",
             "source": {
                 "type": "git",
@@ -3416,6 +3417,7 @@
         },
         {
             "name": "symfony/polyfill-intl-idn",
+
             "version": "v1.18.0",
             "source": {
                 "type": "git",
@@ -3592,6 +3594,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/a6977d63bf9a0ad4c65cd352709e230876f9904a",
                 "reference": "a6977d63bf9a0ad4c65cd352709e230876f9904a",
+
                 "shasum": ""
             },
             "require": {
@@ -3669,6 +3672,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/639447d008615574653fb3bc60d1986d7172eaae",
                 "reference": "639447d008615574653fb3bc60d1986d7172eaae",
+
                 "shasum": ""
             },
             "require": {
@@ -3728,7 +3732,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-07-14T12:35:20+00:00"
+            "time": "2020-07-14T12:35:20+00:00"r
         },
         {
             "name": "symfony/profiler-pack",
